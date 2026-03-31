@@ -3,7 +3,7 @@ title: Tutorials
 description: Analysis of system-level stability and hardware-level security remediations.
 
 # My Tutorials
-baseurl: "/tutorials" 
+baseurl: "/Tutorials" 
 url: "https://shadowpbx.github.io"
 
 # Build Settings
