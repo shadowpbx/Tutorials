@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "🚀 Raspberry Pi Zero 2 W Boot Process: A Bare Metal Guide"
+title: "Raspberry Pi Zero 2 W Boot Process: A Bare Metal Guide"
 ---
 
 If you have ever built a custom operating system or dug into low-level digital forensics, you know that understanding how a device wakes up is just as important as the OS it runs. 
