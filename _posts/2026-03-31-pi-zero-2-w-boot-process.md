@@ -80,7 +80,7 @@ To do this, the kernel executes the very first program on the system, typically 
 
 ---
 
-## 🏁 Conclusion: Why Custom OS Engineers Care
+## 🏁 Why Custom OS Engineers Care
 By understanding this entire pipeline, you can see exactly how a 5-volt power source turns into a functional, hacking-ready embedded Linux machine in just a few seconds.
 
 | Phase | Stage | Active Component | Primary Action |
@@ -92,3 +92,31 @@ By understanding this entire pipeline, you can see exactly how a 5-volt power so
 | 🤝 **Handoff** | **5. `kernel8.img`** | **CPU** | GPU copies Linux to RAM and wakes up the ARM CPU. |
 | 🐧 **Kernel** | **6. Device Tree / VFS**| CPU | Kernel maps the hardware and mounts your `rootfs`. |
 | 🧑‍💻 **Userland** | **7. The `init` Process** | CPU | Sequential scripts mount `/sys`, start Wi-Fi/SSH, and spawn the Bash login prompt. |
+
+---
+
+## 🎯 The Domino Effect: Your Role as the OS Architect
+
+Think of the boot process like setting up a line of dominoes 🎲. When you plug the Pi into the wall 🔌, gravity (the hardware) knocks all the dominoes down automatically from Stage 1 to 7. The Pi "takes care of everything" during the actual boot-up. 
+
+**However**, as the custom OS engineer, you have to manually design and place dominoes **4, 5, 6, and 7** *before* you ever plug the power cable in 🧠.
+
+Here is the exact breakdown of who does what before the Pi boots:
+
+### 🛑 The "Hands-Off" Stages (Broadcom’s Job)
+*You do not code, alter, or compile anything here. Buildroot simply downloads these pre-made files and puts them on your SD card.*
+
+* 🟥 **Stage 1 (Mask ROM):** You can't touch this; it's physically inside the chip.
+* 🟧 **Stage 2 (`bootcode.bin`):** You just let it sit on the SD card.
+* 🟨 **Stage 3 (`start.elf`):** You just let it sit on the SD card.
+
+### 🛠️ The "Hands-On" Stages (Your Job)
+*If you do nothing here, the boot process will fail or run poorly. You **must** "do something" for these stages during your Buildroot setup:*
+
+* 🟩 **Stage 4 (`config.txt`):** **You** have to write the text in this file to tell the GPU to shrink its memory (`gpu_mem=16`) and turn on the serial console. If you don't, the Pi defaults to wasting RAM on graphics you aren't using.
+* 🟦 **Stage 5 (`kernel8.img`):** **You** have to configure this. When you run `make menuconfig` in Buildroot, you are choosing exactly what goes into this kernel.
+* 🟪 **Stage 6 (Device Tree & RootFS):** **You** choose which packages (like OpenSSH, Python, Nmap) are packed into the RootFS. If you don't add them during the build, they won't be there when the kernel looks for them.
+* 🟫 **Stage 7 (`init` and Userland):** **You** have to write or configure the startup scripts (like `/etc/init.d/rcS`). If you want a Python packet-sniffer to run the second the Pi turns on, you must explicitly type that command into the script before you flash the SD card.
+
+### 🏁 The Bottom Line
+Once the SD card is flashed and inserted, the Pi Zero takes care of the entire 7-stage sequence in less than 5 seconds without you touching a keyboard ⚡. But to get to that point, **you** are the architect responsible for engineering stages 4 through 7! 🚀
