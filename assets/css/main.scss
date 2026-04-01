@@ -8,7 +8,7 @@
 #main {
   /* Shrink paragraphs, lists, and table text all at once */
   p, li, td, th, blockquote {
-    font-size: 0.9rem !important; 
+    font-size: 1.1rem !important; 
     line-height: 1.5 !important;
   }
 
@@ -20,13 +20,13 @@
 
   /* 3. Target the Section Headers (h2, h3) */
   h2 { 
-    font-size: 1.3rem !important; 
+    font-size: 1.4rem !important; 
     border-bottom: 1px solid #eee;
     padding-bottom: 0.3em;
   }
   
   h3 { 
-    font-size: 1.1rem !important; 
+    font-size: 1.2rem !important; 
   }
 
   /* 4. Reset Code Blocks (so they don't get too tiny) */
